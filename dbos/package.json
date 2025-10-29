@@ -1,0 +1,11 @@
+{
+  "name": "dbos-vercel-integration",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "start": "node src/main.ts"
+  },
+  "dependencies": {
+    "@dbos-inc/dbos-sdk": "^4.3.8"
+  }
+}
