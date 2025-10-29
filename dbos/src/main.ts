@@ -1,4 +1,6 @@
 import { DBOS } from "@dbos-inc/dbos-sdk";
+import { Pool } from 'pg';
+
 
 async function stepOne() {
   DBOS.logger.info("Step one completed!");
@@ -15,9 +17,12 @@ async function exampleFunction() {
 const exampleWorkflow = DBOS.registerWorkflow(exampleFunction);
 
 async function main() {
+  const databaseURL = process.env.POSTGRES_URL_NON_POOLING?.replace('?sslmode=require', '');;
+  let pool = new Pool({ connectionString: databaseURL });
   DBOS.setConfig({
     "name": "dbos-vercel-integration",
-    "systemDatabaseUrl": process.env.POSTGRES_URL_NON_POOLING,
+    "systemDatabaseUrl": databaseURL,
+    "systemDatabasePool": pool,
   });
   await DBOS.launch();
   await exampleWorkflow();

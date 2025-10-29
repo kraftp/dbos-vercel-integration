@@ -6,6 +6,10 @@
     "start": "node src/main.ts"
   },
   "dependencies": {
-    "@dbos-inc/dbos-sdk": "^4.3.8"
+    "@dbos-inc/dbos-sdk": "^4.3.8",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.15.6"
   }
 }
