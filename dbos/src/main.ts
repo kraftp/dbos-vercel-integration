@@ -1,4 +1,4 @@
-import { DBOS } from "@dbos-inc/dbos-sdk";
+import { DBOS, WorkflowQueue } from "@dbos-inc/dbos-sdk";
 import { Pool } from 'pg';
 
 
@@ -14,10 +14,15 @@ async function exampleFunction() {
   await DBOS.runStep(() => stepOne(), {name: "stepOne"});
   await DBOS.runStep(() => stepTwo(), {name: "stepTwo"});
 }
-const exampleWorkflow = DBOS.registerWorkflow(exampleFunction);
+const exampleWorkflow = DBOS.registerWorkflow(exampleFunction, {name: "exampleWorkflow"});
+
+const exampleQueue = new WorkflowQueue("exampleQueue");
 
 async function main() {
-  const databaseURL = process.env.POSTGRES_URL_NON_POOLING?.replace('?sslmode=require', '');;
+  const databaseURL = process.env.POSTGRES_URL_NON_POOLING?.replace('?sslmode=require', '');
+  if (!databaseURL) {
+    throw Error("Database URL not defined");
+  }
   let pool = new Pool({ connectionString: databaseURL });
   DBOS.setConfig({
     "name": "dbos-vercel-integration",
@@ -25,8 +30,6 @@ async function main() {
     "systemDatabasePool": pool,
   });
   await DBOS.launch();
-  await exampleWorkflow();
-  await DBOS.shutdown();
 }
 
 main().catch(console.log);
