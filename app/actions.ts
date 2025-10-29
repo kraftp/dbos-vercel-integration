@@ -4,20 +4,14 @@ import { DBOSClient } from "@dbos-inc/dbos-sdk";
 import { Pool } from "pg";
 
 export async function runDBOSWorkflow() {
-  console.log("Calling runDBOSWorkflow");
+  console.log("Enqueueing DBOS workflow");
   const databaseURL = process.env.POSTGRES_URL_NON_POOLING?.replace('?sslmode=require', '');
   if (!databaseURL) {
     throw Error("Database URL not defined");
   }
-  console.log("Creating DBOSClient", databaseURL)
   const pool = new Pool({ connectionString: databaseURL });
-  const c = await pool.connect();
-  console.log(await c.query("SELECT 1;"));
-  c.release();
   const client = await DBOSClient.create({systemDatabaseUrl: databaseURL, systemDatabasePool: pool});
-  console.log("Enqueueing DBOS workflow")
-  client.enqueue({
+  await client.enqueue({
         workflowName: 'exampleWorkflow',
         queueName: 'exampleQueue',})
-  console.log("Workflow enqueued!")
 }
