@@ -10,7 +10,10 @@ export async function runDBOSWorkflow() {
     throw Error("Database URL not defined");
   }
   console.log("Creating DBOSClient", databaseURL)
-  let pool = new Pool({ connectionString: databaseURL });
+  const pool = new Pool({ connectionString: databaseURL });
+  const c = await pool.connect();
+  console.log(await c.query("SELECT 1;"));
+  c.release();
   const client = await DBOSClient.create({systemDatabaseUrl: databaseURL, systemDatabasePool: pool});
   console.log("Enqueueing DBOS workflow")
   client.enqueue({
