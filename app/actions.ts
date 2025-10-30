@@ -16,4 +16,5 @@ export async function runDBOSWorkflow() {
     workflowName: "exampleWorkflow",
     queueName: "exampleQueue",
   });
+  await client.destroy();
 }
