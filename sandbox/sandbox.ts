@@ -1,4 +1,5 @@
 import { Sandbox } from "@vercel/sandbox";
+import 'dotenv/config';
 
 async function main() {
   const sandbox = await Sandbox.create({

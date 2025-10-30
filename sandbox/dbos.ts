@@ -1,4 +1,5 @@
 import { DBOS, WorkflowQueue } from "@dbos-inc/dbos-sdk";
+import 'dotenv/config';
 
 async function stepOne() {
   DBOS.logger.info("Step one completed!");
