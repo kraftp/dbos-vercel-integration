@@ -1,6 +1,4 @@
 import { DBOS, WorkflowQueue } from "@dbos-inc/dbos-sdk";
-import { Pool } from 'pg';
-
 
 async function stepOne() {
   DBOS.logger.info("Step one completed!");
@@ -23,11 +21,9 @@ async function main() {
   if (!databaseURL) {
     throw Error("Database URL not defined");
   }
-  let pool = new Pool({ connectionString: databaseURL });
   DBOS.setConfig({
     "name": "dbos-vercel-integration",
     "systemDatabaseUrl": databaseURL,
-    "systemDatabasePool": pool,
   });
   await DBOS.launch();
 }
