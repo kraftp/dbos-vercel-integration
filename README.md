@@ -12,7 +12,7 @@ There are three components:
 
 3. A Postgres database for durability, hosted on Supabase using the Vercel integration.
 
-The Next.js app enqueues durable background tasks using a DBOS client (backed by Postgres). The worker running DBOS dequeues and executes background tasks, recovering them if they fail.
+The Next.js app enqueues durable background tasks using a DBOS client (backed by Postgres). The worker runs DBOS, dequeueing and executing background tasks and recovering them if they fail.
 
 ## How to Run
 
