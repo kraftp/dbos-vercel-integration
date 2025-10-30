@@ -9,21 +9,26 @@ async function stepTwo() {
 }
 
 async function exampleFunction() {
-  await DBOS.runStep(() => stepOne(), {name: "stepOne"});
-  await DBOS.runStep(() => stepTwo(), {name: "stepTwo"});
+  await DBOS.runStep(() => stepOne(), { name: "stepOne" });
+  await DBOS.runStep(() => stepTwo(), { name: "stepTwo" });
 }
-const exampleWorkflow = DBOS.registerWorkflow(exampleFunction, {name: "exampleWorkflow"});
+const exampleWorkflow = DBOS.registerWorkflow(exampleFunction, {
+  name: "exampleWorkflow",
+});
 
 const exampleQueue = new WorkflowQueue("exampleQueue");
 
 async function main() {
-  const databaseURL = process.env.POSTGRES_URL_NON_POOLING?.replace('?sslmode=require', '');
+  const databaseURL = process.env.POSTGRES_URL_NON_POOLING?.replace(
+    "?sslmode=require",
+    "",
+  );
   if (!databaseURL) {
     throw Error("Database URL not defined");
   }
   DBOS.setConfig({
-    "name": "dbos-vercel-integration",
-    "systemDatabaseUrl": databaseURL,
+    name: "dbos-vercel-integration",
+    systemDatabaseUrl: databaseURL,
   });
   await DBOS.launch();
 }
