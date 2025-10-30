@@ -2,6 +2,7 @@
   "name": "nextjs",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,6 +12,7 @@
   "dependencies": {
     "@dbos-inc/dbos-sdk": "^4.4.4-preview.gc90a14c7ef",
     "@dbos-inc/otel": "^4.3.8",
+    "@vercel/sandbox": "^1.0.2",
     "next": "16.0.1",
     "react": "19.2.0",
     "react-dom": "19.2.0"
