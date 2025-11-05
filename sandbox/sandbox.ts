@@ -6,7 +6,6 @@ async function main() {
     source: {
       url: "https://github.com/kraftp/dbos-vercel-integration.git",
       type: "git",
-      revision: "kraftp/integration",
     },
     timeout: 5 * 60 * 1000, // 5 minutes
     ports: [3000],
