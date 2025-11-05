@@ -22,7 +22,7 @@ The Next.js app enqueues durable background tasks using a DBOS client (backed by
 
 ```
 vercel link
-vercel pull env .env
+vercel env pull .env
 ```
 
 3. Launch a DBOS worker in a Vercel sandbox:
