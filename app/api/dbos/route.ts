@@ -1,5 +1,11 @@
+import { waitUntil } from '@vercel/functions';
+ 
+async function getBlog() {
+  const res = await fetch('https://my-analytics-service.example.com/blog/1');
+  return res.json();
+}
+
 export async function GET(request: Request) {
-  const response = await fetch('https://api.vercel.app/products');
-  const products = await response.json();
-  return Response.json(products);
+    waitUntil(getBlog().then((json) => console.log({ json })));
+    return new Response(`Hello from ${request.url}, I'm a Vercel Function!`);
 }
