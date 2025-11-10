@@ -13,11 +13,11 @@ async function exampleFunction() {
   await DBOS.runStep(() => stepOne(), { name: "stepOne" });
   await DBOS.runStep(() => stepTwo(), { name: "stepTwo" });
 }
-const exampleWorkflow = DBOS.registerWorkflow(exampleFunction, {
+
+DBOS.registerWorkflow(exampleFunction, {
   name: "exampleWorkflow",
 });
-
-const exampleQueue = new WorkflowQueue("exampleQueue");
+new WorkflowQueue("exampleQueue");
 
 async function main() {
   const databaseURL = process.env.POSTGRES_URL_NON_POOLING?.replace(
