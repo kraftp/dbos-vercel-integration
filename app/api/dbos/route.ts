@@ -2,7 +2,7 @@ import { waitUntil } from '@vercel/functions';
  
 async function getBlog() {
   const res = await fetch('https://example.com/');
-  return res.json();
+  return res.text;
 }
 
 export async function GET(request: Request) {
