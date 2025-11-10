@@ -1,7 +1,7 @@
 import { waitUntil } from '@vercel/functions';
  
 async function getBlog() {
-  const res = await fetch('https://my-analytics-service.example.com/blog/1');
+  const res = await fetch('https://example.com/');
   return res.json();
 }
 
