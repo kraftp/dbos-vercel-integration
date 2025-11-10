@@ -7,14 +7,28 @@ export default function Home() {
     await runDBOSWorkflow();
   };
 
+  const startWorkerFunction = async () => {
+    const response = await fetch('/api/dbos/worker');
+    const data = await response.json();
+    console.log('API response:', data);
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <button
-        onClick={handleClick}
-        className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
-      >
-        Run DBOS Workflow
-      </button>
+      <div className="flex flex-col gap-4">
+        <button
+          onClick={handleClick}
+          className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+        >
+          Run DBOS Workflow
+        </button>
+        <button
+          onClick={startWorkerFunction}
+          className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium"
+        >
+          Start worker function
+        </button>
+      </div>
     </div>
   );
 }
