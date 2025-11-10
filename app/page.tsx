@@ -202,7 +202,7 @@ export default function Home() {
           <div className="px-8 py-6 bg-gradient-to-r from-slate-800 to-slate-900 border-b border-slate-700">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold text-white">
-                Active Workflows
+                Workflows
               </h2>
               <div className="flex items-center gap-2 text-sm text-slate-300">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
