@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { enqueueWorkflow, listWorkflows } from "./actions";
-import { useEffect, useState } from "react";
-import { WorkflowStatus } from "@dbos-inc/dbos-sdk";
+import { enqueueWorkflow, listWorkflows } from './actions';
+import { useEffect, useState } from 'react';
+import { WorkflowStatus } from '@dbos-inc/dbos-sdk';
 
 export default function Home() {
   const [workflows, setWorkflows] = useState<WorkflowStatus[]>([]);
@@ -15,7 +15,7 @@ export default function Home() {
       const data = await listWorkflows();
       setWorkflows(data);
     } catch (error) {
-      console.error("Failed to fetch workflows:", error);
+      console.error('Failed to fetch workflows:', error);
     } finally {
       setLoading(false);
     }
@@ -33,7 +33,7 @@ export default function Home() {
       await enqueueWorkflow();
       await fetchWorkflows();
     } catch (error) {
-      console.error("Failed to enqueue workflow:", error);
+      console.error('Failed to enqueue workflow:', error);
     } finally {
       setEnqueueing(false);
     }
@@ -42,11 +42,11 @@ export default function Home() {
   const handleStartWorker = async () => {
     setStartingWorker(true);
     try {
-      const response = await fetch("/api/dbos");
+      const response = await fetch('/api/dbos');
       const data = await response.text();
-      console.log("API response:", data);
+      console.log('API response:', data);
     } catch (error) {
-      console.error("Failed to start worker:", error);
+      console.error('Failed to start worker:', error);
     } finally {
       setStartingWorker(false);
     }
@@ -54,27 +54,27 @@ export default function Home() {
 
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
-      case "success":
-        return "bg-green-100 text-green-800 border-green-200";
-      case "enqueued":
-        return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "pending":
-        return "bg-blue-100 text-blue-800 border-blue-200";
-      case "error":
-        return "bg-red-100 text-red-800 border-red-200";
+      case 'success':
+        return 'bg-green-100 text-green-800 border-green-200';
+      case 'enqueued':
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'pending':
+        return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'error':
+        return 'bg-red-100 text-red-800 border-red-200';
       default:
-        return "bg-gray-100 text-gray-800 border-gray-200";
+        return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
   const formatTimestamp = (epochMs: number) => {
     const date = new Date(epochMs);
-    return date.toLocaleString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
+    return date.toLocaleString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
     });
   };
 
@@ -86,9 +86,7 @@ export default function Home() {
           <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-3">
             DBOS Workflow Manager
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 text-lg">
-            Monitor and manage your workflows in real-time
-          </p>
+          <p className="text-gray-600 dark:text-gray-400 text-lg">Monitor and manage your workflows in real-time</p>
         </div>
 
         {/* Action Buttons */}
@@ -121,18 +119,8 @@ export default function Home() {
                 </>
               ) : (
                 <>
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 4v16m8-8H4"
-                    />
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                   </svg>
                   Enqueue Workflow
                 </>
@@ -168,12 +156,7 @@ export default function Home() {
                 </>
               ) : (
                 <>
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -198,27 +181,21 @@ export default function Home() {
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden">
           <div className="px-8 py-6 bg-gradient-to-r from-slate-800 to-slate-900 border-b border-slate-700">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-white">
-                Workflows
-              </h2>
+              <h2 className="text-2xl font-bold text-white">Workflows</h2>
               <div className="flex items-center gap-2 text-sm text-slate-300">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                 Auto-updating
               </div>
             </div>
             <p className="text-slate-400 mt-1">
-              {workflows.length} workflow{workflows.length !== 1 ? "s" : ""}{" "}
-              found
+              {workflows.length} workflow{workflows.length !== 1 ? 's' : ''} found
             </p>
           </div>
 
           <div className="p-8">
             {loading ? (
               <div className="flex flex-col items-center justify-center py-16">
-                <svg
-                  className="animate-spin h-12 w-12 text-blue-600 mb-4"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="animate-spin h-12 w-12 text-blue-600 mb-4" viewBox="0 0 24 24">
                   <circle
                     className="opacity-25"
                     cx="12"
@@ -234,9 +211,7 @@ export default function Home() {
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                   />
                 </svg>
-                <p className="text-gray-500 dark:text-gray-400">
-                  Loading workflows...
-                </p>
+                <p className="text-gray-500 dark:text-gray-400">Loading workflows...</p>
               </div>
             ) : workflows.length === 0 ? (
               <div className="text-center py-16">
@@ -253,12 +228,8 @@ export default function Home() {
                     d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
                   />
                 </svg>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                  No workflows yet
-                </h3>
-                <p className="text-gray-500 dark:text-gray-400">
-                  Get started by enqueueing your first workflow
-                </p>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">No workflows yet</h3>
+                <p className="text-gray-500 dark:text-gray-400">Get started by enqueueing your first workflow</p>
               </div>
             ) : (
               <div className="grid gap-4">
@@ -270,20 +241,13 @@ export default function Home() {
                     <div className="flex items-center justify-between">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-3 mb-2">
-                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                            Workflow ID
-                          </h3>
+                          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Workflow ID</h3>
                         </div>
                         <p className="text-lg font-mono font-semibold text-gray-900 dark:text-gray-100 truncate mb-2">
                           {workflow.workflowID}
                         </p>
                         <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                          <svg
-                            className="w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path
                               strokeLinecap="round"
                               strokeLinejoin="round"
@@ -297,7 +261,7 @@ export default function Home() {
                       <div className="ml-6">
                         <span
                           className={`inline-flex items-center px-4 py-2 rounded-lg text-sm font-semibold border ${getStatusColor(
-                            workflow.status
+                            workflow.status,
                           )}`}
                         >
                           {workflow.status}
@@ -312,9 +276,7 @@ export default function Home() {
         </div>
 
         {/* Footer */}
-        <div className="text-center mt-8 text-sm text-gray-500 dark:text-gray-400">
-          Powered by DBOS
-        </div>
+        <div className="text-center mt-8 text-sm text-gray-500 dark:text-gray-400">Powered by DBOS</div>
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ vercel env pull .env
 3. Launch a DBOS worker in a Vercel sandbox:
 
 ```
-node --experimental-strip-types sandbox/sandbox.ts 
+node --experimental-strip-types sandbox/sandbox.ts
 ```
 
 4. Open your project page on Vercel and click "Enqueue Workflow" to start a background job with DBOS. You should see the job execute in your Vercel sandbox!
