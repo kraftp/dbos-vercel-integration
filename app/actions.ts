@@ -26,7 +26,7 @@ export async function enqueueWorkflow() {
 }
 
 export async function listWorkflows() {
-  console.log('Listing DBOS workflow');
+  console.log('Listing DBOS workflows');
   return withClient(async (client) => {
     return await client.listWorkflows({
       workflowName: 'exampleWorkflow',
