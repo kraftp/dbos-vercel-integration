@@ -1,39 +1,37 @@
-import { DBOS, WorkflowQueue } from "@dbos-inc/dbos-sdk";
+import { DBOS, WorkflowQueue } from '@dbos-inc/dbos-sdk';
 import { waitUntil } from '@vercel/functions';
 
+// Define a workflow and steps
 async function stepOne() {
-  DBOS.logger.info("Step one completed!");
+  DBOS.logger.info('Step one completed!');
 }
 
 async function stepTwo() {
-  DBOS.logger.info("Step two completed!");
+  DBOS.logger.info('Step two completed!');
 }
 
 async function exampleFunction() {
-  await DBOS.runStep(() => stepOne(), { name: "stepOne" });
-  await DBOS.runStep(() => stepTwo(), { name: "stepTwo" });
+  await DBOS.runStep(() => stepOne(), { name: 'stepOne' });
+  await DBOS.runStep(() => stepTwo(), { name: 'stepTwo' });
 }
+
+// Register the workflow and a queue with DBOS
 DBOS.registerWorkflow(exampleFunction, {
-  name: "exampleWorkflow",
+  name: 'exampleWorkflow',
 });
-new WorkflowQueue("exampleQueue");
+new WorkflowQueue('exampleQueue');
 
-const databaseURL = process.env.POSTGRES_URL_NON_POOLING?.replace(
-  "?sslmode=require",
-  "",
-);
-if (!databaseURL) {
-  throw Error("Database URL not defined");
-}
-
+// Configure and launch DBOS. It will automatically dequeue and execute workflows.
 DBOS.setConfig({
-  name: "dbos-vercel-integration",
-  systemDatabaseUrl: databaseURL,
+  name: 'dbos-vercel-integration',
+  systemDatabaseUrl: process.env.POSTGRES_URL_NON_POOLING?.replace('?sslmode=require', ''),
   runAdminServer: false,
 });
 await DBOS.launch();
 
-// Wait for either all enqueued workflows to complete or a timeout to be reached
+// After the worker Vercel function is launched,
+// it waits for either all enqueued workflows
+// to complete or for a timeout to be reached
 async function waitForQueuedWorkflowsToComplete(timeoutMs: number): Promise<void> {
   const startTime = Date.now();
   const intervalMs = 1000;
@@ -47,7 +45,7 @@ async function waitForQueuedWorkflowsToComplete(timeoutMs: number): Promise<void
       return;
     }
     console.log(`${queuedWorkflows.length} workflows still queued, waiting...`);
-    await new Promise<void>(resolve => setTimeout(resolve, intervalMs));
+    await new Promise<void>((resolve) => setTimeout(resolve, intervalMs));
   }
 }
 
