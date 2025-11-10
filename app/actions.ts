@@ -29,7 +29,7 @@ export async function listWorkflows() {
     throw Error("Database URL not defined");
   }
   const client = await DBOSClient.create({ systemDatabaseUrl: databaseURL });
-  const workflows = await client.listWorkflows({workflowName: "exampleWorkflow"});
+  const workflows = await client.listWorkflows({workflowName: "exampleWorkflow", sortDesc: true});
   await client.destroy();
   return workflows;
 }

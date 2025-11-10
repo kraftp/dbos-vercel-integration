@@ -70,6 +70,17 @@ export default function Home() {
     }
   };
 
+  const formatTimestamp = (epochMs: number) => {
+    const date = new Date(epochMs);
+    return date.toLocaleString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-slate-900 dark:to-gray-900 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
@@ -266,9 +277,25 @@ export default function Home() {
                             Workflow ID
                           </h3>
                         </div>
-                        <p className="text-lg font-mono font-semibold text-gray-900 dark:text-gray-100 truncate">
+                        <p className="text-lg font-mono font-semibold text-gray-900 dark:text-gray-100 truncate mb-2">
                           {workflow.workflowID}
                         </p>
+                        <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                          <span>Created {formatTimestamp(workflow.createdAt)}</span>
+                        </div>
                       </div>
                       <div className="ml-6">
                         <span
