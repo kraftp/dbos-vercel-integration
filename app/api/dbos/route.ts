@@ -3,10 +3,14 @@ import { waitUntil } from '@vercel/functions';
 
 // Define a workflow and steps
 async function stepOne() {
+  // Sleep 5 seconds
+  await new Promise(resolve => setTimeout(resolve, 5000));
   DBOS.logger.info('Step one completed!');
 }
 
 async function stepTwo() {
+  // Sleep 5 seconds
+  await new Promise(resolve => setTimeout(resolve, 5000));
   DBOS.logger.info('Step two completed!');
 }
 
