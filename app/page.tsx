@@ -8,7 +8,7 @@ export default function Home() {
   };
 
   const startWorkerFunction = async () => {
-    const response = await fetch('/api/dbos/worker');
+    const response = await fetch('/api/dbos');
     const data = await response.json();
     console.log('API response:', data);
   };
