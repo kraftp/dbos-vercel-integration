@@ -17,21 +17,23 @@ const exampleWorkflow = DBOS.registerWorkflow(exampleFunction, {
   name: "exampleWorkflow",
 });
 
+const databaseURL = process.env.POSTGRES_URL_NON_POOLING?.replace(
+  "?sslmode=require",
+  "",
+);
+if (!databaseURL) {
+  throw Error("Database URL not defined");
+}
+
+DBOS.setConfig({
+  name: "dbos-vercel-integration",
+  systemDatabaseUrl: databaseURL,
+});
+await DBOS.launch();
+
 // const exampleQueue = new WorkflowQueue("exampleQueue");
 
 export async function GET(request: Request) {
-  const databaseURL = process.env.POSTGRES_URL_NON_POOLING?.replace(
-    "?sslmode=require",
-    "",
-  );
-  if (!databaseURL) {
-    throw Error("Database URL not defined");
-  }
-  DBOS.setConfig({
-    name: "dbos-vercel-integration",
-    systemDatabaseUrl: databaseURL,
-  });
-  await DBOS.launch();
   await exampleWorkflow();
   return new Response(`Hello from ${request.url}, I ran a DBOS workflow!`);
 }
