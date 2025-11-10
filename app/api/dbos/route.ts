@@ -13,9 +13,10 @@ async function exampleFunction() {
   await DBOS.runStep(() => stepOne(), { name: "stepOne" });
   await DBOS.runStep(() => stepTwo(), { name: "stepTwo" });
 }
-const exampleWorkflow = DBOS.registerWorkflow(exampleFunction, {
+DBOS.registerWorkflow(exampleFunction, {
   name: "exampleWorkflow",
 });
+new WorkflowQueue("exampleQueue");
 
 const databaseURL = process.env.POSTGRES_URL_NON_POOLING?.replace(
   "?sslmode=require",
@@ -28,12 +29,37 @@ if (!databaseURL) {
 DBOS.setConfig({
   name: "dbos-vercel-integration",
   systemDatabaseUrl: databaseURL,
+  runAdminServer: false,
 });
 await DBOS.launch();
 
-// const exampleQueue = new WorkflowQueue("exampleQueue");
+async function waitForQueuedWorkflowsToComplete(timeoutMs: number): Promise<void> {
+  const startTime = Date.now();
+  const intervalMs = 1000; // Poll every second
+
+  while (true) {
+    // Check if timeout has been reached
+    if (Date.now() - startTime >= timeoutMs) {
+      throw new Error(`Timeout reached after ${timeoutMs}ms - queued workflows still exist`);
+    }
+
+    // Get the list of queued workflows
+    const queuedWorkflows = await DBOS.listQueuedWorkflows({});
+
+    // If the list is empty, we're done
+    if (queuedWorkflows.length === 0) {
+      console.log('All queued workflows completed');
+      return;
+    }
+
+    console.log(`${queuedWorkflows.length} workflows still queued, waiting...`);
+
+    // Wait for 1 second before checking again
+    await new Promise<void>(resolve => setTimeout(resolve, intervalMs));
+  }
+}
 
 export async function GET(request: Request) {
-  await exampleWorkflow();
-  return new Response(`Hello from ${request.url}, I ran a DBOS workflow!`);
+  waitUntil(waitForQueuedWorkflowsToComplete(60000));
+  return new Response(`Starting DBOS worker!`);
 }
