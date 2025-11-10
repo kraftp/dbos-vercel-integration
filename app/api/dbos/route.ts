@@ -33,28 +33,20 @@ DBOS.setConfig({
 });
 await DBOS.launch();
 
+// Wait for either all enqueued workflows to complete or a timeout to be reached
 async function waitForQueuedWorkflowsToComplete(timeoutMs: number): Promise<void> {
   const startTime = Date.now();
-  const intervalMs = 1000; // Poll every second
-
+  const intervalMs = 1000;
   while (true) {
-    // Check if timeout has been reached
     if (Date.now() - startTime >= timeoutMs) {
       throw new Error(`Timeout reached after ${timeoutMs}ms - queued workflows still exist`);
     }
-
-    // Get the list of queued workflows
     const queuedWorkflows = await DBOS.listQueuedWorkflows({});
-
-    // If the list is empty, we're done
     if (queuedWorkflows.length === 0) {
       console.log('All queued workflows completed');
       return;
     }
-
     console.log(`${queuedWorkflows.length} workflows still queued, waiting...`);
-
-    // Wait for 1 second before checking again
     await new Promise<void>(resolve => setTimeout(resolve, intervalMs));
   }
 }
