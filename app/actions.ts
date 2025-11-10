@@ -1,20 +1,36 @@
-"use server";
+'use server';
 
-import { DBOSClient } from "@dbos-inc/dbos-sdk";
+import { DBOSClient } from '@dbos-inc/dbos-sdk';
 
-export async function runDBOSWorkflow() {
-  console.log("Enqueueing DBOS workflow");
-  const databaseURL = process.env.POSTGRES_URL_NON_POOLING?.replace(
-    "?sslmode=require",
-    "",
-  );
+async function withClient<T>(callback: (client: DBOSClient) => Promise<T>): Promise<T> {
+  const databaseURL = process.env.POSTGRES_URL_NON_POOLING?.replace('?sslmode=require', '');
   if (!databaseURL) {
-    throw Error("Database URL not defined");
+    throw Error('Database URL not defined');
   }
   const client = await DBOSClient.create({ systemDatabaseUrl: databaseURL });
-  await client.enqueue({
-    workflowName: "exampleWorkflow",
-    queueName: "exampleQueue",
+  try {
+    return await callback(client);
+  } finally {
+    await client.destroy();
+  }
+}
+
+export async function enqueueWorkflow() {
+  console.log('Enqueueing DBOS workflow');
+  return withClient(async (client) => {
+    await client.enqueue({
+      workflowName: 'exampleWorkflow',
+      queueName: 'exampleQueue',
+    });
   });
-  await client.destroy();
+}
+
+export async function listWorkflows() {
+  console.log('Listing DBOS workflow');
+  return withClient(async (client) => {
+    return await client.listWorkflows({
+      workflowName: 'exampleWorkflow',
+      sortDesc: true,
+    });
+  });
 }
