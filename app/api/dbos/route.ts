@@ -52,6 +52,6 @@ async function waitForQueuedWorkflowsToComplete(timeoutMs: number): Promise<void
 }
 
 export async function GET(request: Request) {
-  waitUntil(waitForQueuedWorkflowsToComplete(60000).then(() => DBOS.shutdown()));
+  waitUntil(waitForQueuedWorkflowsToComplete(60000));
   return new Response(`Starting DBOS worker! Request URL: ${request.url}`);
 }
